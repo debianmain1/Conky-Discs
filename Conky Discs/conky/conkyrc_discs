@@ -1,0 +1,93 @@
+conky.config = {
+
+-- Conky by Dean Loros
+-- Conky settings #
+	background = false,
+	update_interval = 2,
+	double_buffer = true,
+	no_buffers = true,
+
+-- number of cpu samples to average
+-- set to 1 to disable averaging
+	cpu_avg_samples = 1,
+
+-- number of net samples to average
+-- set to 1 to disable averaging
+	net_avg_samples = 1,
+
+-- Window specifications #
+	own_window = true,
+        own_window_type = 'desktop',
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	own_window_title = '',
+	own_window_transparent=true,
+	own_window_argb_visual = true,
+	own_window_argb_value = 200,
+
+-- Minimum size of text area
+	minimum_width = 220, minimum_height = 1080,
+
+-- Alignment #
+	alignment = 'top_right',
+	gap_x = 0,
+	gap_y = 30,
+
+	border_inner_margin = 4,
+	border_outer_margin = 0,
+
+-- Graphics settings #
+	draw_shades = false,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+
+-- Text settings #
+	use_xft = true,
+	font = 'Freesans:size=10',
+	xftalpha = 0.5,
+
+	override_utf8_locale = true,
+
+	imlib_cache_size = 0,
+
+-- Color scheme #
+	default_color = 'white',
+        color1 = 'green',
+        color2 = 'red',
+};
+
+conky.text = [[
+${image ~/.conky/img/disc.png -p 45,0 -s 200x200}
+${voffset 25}${goto 115}CPU TEMP${voffset 10}
+${goto 120}${color}1:${goto 140}${font LCDMono2:size=12}${color1}${execi 30 sensors|grep 'Core 0'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} ${font}°C${color}
+${goto 120}2:${goto 140}${font LCDMono2:size=12}${color1}${execi 30 sensors|grep 'Core 1'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} ${font}°C 
+${goto 120}${color}3:${goto 140}${font LCDMono2:size=12}${color1}${execi 30 sensors|grep 'Core 2'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} ${font}°C ${color}
+${goto 120}4:${goto 140}${font LCDMono2:size=12}${color1}${execi 30 sensors|grep 'Core 3'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'} ${font}°C ${color}
+${image ~/.conky/img/disc.png -p 45,160 -s 200x200}
+${voffset 55}${goto 115}CPU LOAD${voffset 10}
+${goto 120}${color}1:${goto 140}${font LCDMono2:size=12}${color1}${cpu cpu0}${font}%${color}
+${goto 120}${color}2:${goto 140}${font LCDMono2:size=12}${color1}${cpu cpu1}${font}%${color}
+${goto 120}${color}3:${goto 140}${font LCDMono2:size=12}${color1}${cpu cpu2}${font}%${color}
+${goto 120}${color}4:${goto 140}${font LCDMono2:size=12}${color1}${cpu cpu3}${font}%${color}
+${image ~/.conky/img/disc.png -p 45,330 -s 200x200}
+${voffset 70}${goto 110}PROCESSES${voffset 10}
+${goto 110}${color1}${font LCDMono2:size=12}$processes${goto 140}${font}${color}Total
+${goto 110}${color1}${font LCDMono2:size=12}$running_threads${goto 140}${font}${color}Running 
+${image ~/.conky/img/disc.png -p 45,500 -s 200x200}
+${voffset 90}${goto 115}MISC TEMP${voffset 5}
+${goto 110}GPU1:${goto 155}${font LCDMono2:size=12}${color1}${exec nvidia-settings -t -q [gpu:0]/GPUCoreTemp}${font} °C ${color}
+${goto 110}GPU2:${goto 155}${font LCDMono2:size=12}${color1}${exec nvidia-settings -t -q [gpu:1]/GPUCoreTemp}${font} °C${color}
+${goto 110}SDA:${goto 155}${font LCDMono2:size=12}${color1}${hddtemp /dev/sda}${font} °C  ${color}
+${goto 110}SDB:${goto 155}${font LCDMono2:size=12}${color1}${hddtemp /dev/sdb}${font} °C${color} 
+${image ~/.conky/img/disc.png -p 45,670 -s 200x200}
+${voffset 70}${goto 110}DISC SPACE${voffset 10}
+${goto 105}Home ${goto 145}${color1}${font LCDMono2:size=12}${fs_used /home}${color}${font}
+${goto 105}Root ${goto 145}${color1}${font LCDMono2:size=12}${fs_used /}${color}${font}
+${goto 105}Data ${goto 145}${color1}${font LCDMono2:size=12}${fs_used /media/Storage}${color}${font}
+${image ~/.conky/img/disc.png -p 45,840 -s 200x200}
+${voffset 80}${goto 112}NET SPEED${voffset 10}
+${goto 105}Down:${goto 150}${color1}${font LCDMono2:size=12}${downspeed bond0}${color}${font}
+
+${goto 105}Up:${goto 150}${color2}${font LCDMono2:size=12}${upspeed bond0}
+
+]];
